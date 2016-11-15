@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go Go Go Jek</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body ng-app="app">
+    <div ng-controller="MainCtrl as ctrl">
+
+      <div class="sidebar">
+        <div class="title">Go Go Go Jek</div>
+
+        <div class="option-name">Visual Type</div>
+        <div class="float-half-left">
+          <div class="radio radio-orange">
+            <input type="radio" id="radio11" name="type" checked>
+            <label for="radio11">Heatmap</label>
+          </div>
+        </div>
+        <div class="float-half-right">
+          <div class="radio radio-orange">
+            <input type="radio" id="radio12" name="type">
+            <label for="radio12">Network</label>
+          </div>
+        </div>
+        <div class="float-clear"></div>
+
+        <div class="option-name">Aggregation</div>
+        <div class="float-half-left">
+          <div class="radio radio-orange">
+            <input type="radio" id="radio21" name="aggregation" checked>
+            <label for="radio21">Average</label>
+          </div>
+        </div>
+        <div class="float-half-right">
+          <div class="radio radio-orange">
+            <input type="radio" id="radio22" name="aggregation">
+            <label for="radio22">Sum</label>
+          </div>
+        </div>
+        <div class="float-clear"></div>
+
+        <div class="option-name">Time Interval</div>
+        <div class="float-half-left">
+          <span>From</span>
+          <p><input type="date" class="form-control"></p>
+        </div>
+        <div class="float-half-right">
+          <span>To</span>
+          <p><input type="date" class="form-control"></p>
+        </div>
+        <div class="float-clear"></div>
+
+        <div class="option-name">Filter Location</div>
+        <div class="float-half-left">
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox11">
+            <label for="checkbox11">ALL</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox12">
+            <label for="checkbox12">Jakarta Timur</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox13">
+            <label for="checkbox13">Jakarta Barat</label>
+          </div>
+        </div>
+        <div class="float-half-right">
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox14">
+            <label for="checkbox14">Jakarta Utara</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox15">
+            <label for="checkbox15">Jakarta Pusat</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox16" checked>
+            <label for="checkbox16">Jakarta Selatan</label>
+          </div>
+        </div>
+        <div class="float-clear"></div>
+
+        <div class="option-name">Filter Days</div>
+        <div class="float-half-left">
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox21">
+            <label for="checkbox21">ALL</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox22">
+            <label for="checkbox22">Monday</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox23">
+            <label for="checkbox23">Tuesday</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox24">
+            <label for="checkbox24">Wednesday</label>
+          </div>
+        </div>
+        <div class="float-half-right">
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox25">
+            <label for="checkbox25">Thursday</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox26">
+            <label for="checkbox26">Friday</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox27" checked>
+            <label for="checkbox27">Saturday</label>
+          </div>
+          <div class="checkbox checkbox-orange">
+            <input type="checkbox" id="checkbox28" checked>
+            <label for="checkbox28">Sunday</label>
+          </div>
+        </div>
+        <div class="float-clear"></div>
+
+        <div class="submitter">
+          <button type="button" class="btn btn-orange">Submit</button>
+        </div>
+      </div>
+
+      <div class="map">
+        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=106.47811889648439%2C-6.381494723355271%2C107.00408935546876%2C-5.969168294280697&amp;layer=mapnik"></iframe>
+      </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="js/controller.js"></script>
+</body>
+</html>

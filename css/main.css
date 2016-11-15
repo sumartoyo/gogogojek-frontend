@@ -1,0 +1,117 @@
+/* override */
+
+body, html {
+  height: 100%;
+}
+
+body {
+  min-width: 992px;
+}
+
+.form-control {
+  margin-top: 3px;
+  padding: 3px 8px;
+  height: 26px;
+}
+.form-control:focus {
+  border-color: #F8C023;
+}
+
+.input-sm {
+  height: 26px;
+  padding: 3px 8px;
+}
+
+.checkbox, .radio {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.checkbox label::before, .radio label::before {
+  border: 0 none;
+}
+.radio label::after {
+  background-color: #111;
+}
+.checkbox label::after {
+  color: #111;
+}
+.checkbox-orange input[type="checkbox"]:checked + label::before,
+.radio-orange input[type="radio"]:checked + label::before {
+    background-color: #F8C023;
+    border-color: #F8C023;
+}
+
+/* elements */
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  padding: 15px;
+  background-color: #111;
+  color: #E0E0E0;
+  overflow-y: auto;
+}
+
+.title {
+  font-size: 18px;
+  color: #fff;
+}
+
+.option-name {
+  margin: 15px -15px 10px;
+  padding: 5px 15px;
+  background-color: #292828;
+  color: #F8C023;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.submitter {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.submitter .btn {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  left: 320px;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+/* classes */
+
+.float-half-left, .float-half-right {
+  float: left;
+  width: 50%;
+}
+.float-half-left {
+  padding-right: 7px;
+}
+.float-half-right {
+  padding-left: 7px;
+}
+.float-clear {
+  clear: both;
+}
+
+.btn-orange {
+  color: #111;
+  background-color: #F8C023;
+  border-color: #E8B013;
+}
+.btn-orange:hover, .btn-orange:focus, .btn-orange:active {
+  color: #000;
+  background-color: #FFCF2F;
+}
