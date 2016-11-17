@@ -44,7 +44,7 @@ body {
 
 /* elements */
 
-.sidebar {
+#sidebar {
   position: absolute;
   top: 0;
   left: 0;
@@ -56,7 +56,7 @@ body {
   overflow-y: auto;
 }
 
-.title {
+#title {
   font-size: 18px;
   color: #fff;
 }
@@ -70,18 +70,18 @@ body {
   font-weight: bold;
 }
 
-.submitter {
+#submitter {
   text-align: center;
   margin-top: 15px;
   margin-bottom: 15px;
 }
-.submitter .btn {
+#submitter .btn {
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-.map {
+#map {
   position: absolute;
   top: 0;
   left: 320px;

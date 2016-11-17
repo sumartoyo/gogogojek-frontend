@@ -11,8 +11,8 @@
   <body ng-app="app">
     <div ng-controller="MainCtrl as ctrl">
 
-      <div class="sidebar">
-        <div class="title">Go Go Go Jek</div>
+      <div id="sidebar">
+        <div id="title">Go Go Go Jek</div>
 
         <div class="option-name">Visual Type</div>
         <div class="float-half-left">
@@ -136,14 +136,12 @@
         </div>
         <div class="float-clear"></div>
 
-        <div class="submitter">
+        <div id="submitter">
           <button type="button" class="btn btn-orange">Submit</button>
         </div>
       </div>
 
-      <div class="map">
-        <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=106.47811889648439%2C-6.381494723355271%2C107.00408935546876%2C-5.969168294280697&amp;layer=mapnik"></iframe>
-      </div>
+      <div id="map"></div>
 
     </div>
 
@@ -151,6 +149,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <script src="https://maps.google.com/maps/api/js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
     <script src="js/controller.js"></script>
+    <script src="js/maps.js"></script>
 </body>
 </html>
