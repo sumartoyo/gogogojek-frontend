@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('app', []).controller('MainCtrl', function() {
   var vm = this;
 
@@ -45,7 +43,11 @@ angular.module('app', []).controller('MainCtrl', function() {
     console.log('show viz...');
   };
 
-  // init
+  /* init */
+
   vm.location.onChange();
   vm.day.onChange();
+
+  var viz = new Viz();
+  var maps = new Maps(viz);
 });
