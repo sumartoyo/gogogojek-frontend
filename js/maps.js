@@ -41,28 +41,18 @@ function Maps(viz) {
   };
 
   self.draw = function(data) {
-    var lat0 = -6.123737;
-    var lat1 = -6.359908;
-    var long0 = 106.728401;
-    var long1 = 106.969414;
-    var rangelat = lat1 - lat0;
-    var rangelong = long1 - long0;
-    var maxRow = 0, maxCol = 0, minWeight = 9999999, maxWeight = 0;
+    var minWeight = 9999999, maxWeight = 0;
     data.forEach(item => {
-      maxRow = Math.max(maxRow, item[0]);
-      maxCol = Math.max(maxCol, item[1]);
       minWeight = Math.min(minWeight, item[2]);
       maxWeight = Math.max(maxWeight, item[2]);
     });
-    var sizelat = rangelat / maxCol;
-    var sizelong = rangelong / maxRow;
-    var rangeweight = maxWeight - minWeight;
+    var scaleWeight = 100 / (maxWeight - minWeight);
 
     var points = [];
     data.forEach(item => {
       points.push({
-        location: new google.maps.LatLng((item[0] * sizelat) + lat0, (item[1] * sizelong) + long0),
-        weight: ((item[2] - minWeight) * 100) / rangeweight,
+        location: new google.maps.LatLng(item[0], item[1]),
+        weight: (item[2] - minWeight) * scaleWeight,
       });
     });
     heatmap.splice(0, heatmap.length);
