@@ -63,6 +63,9 @@ angular.module('app', [
     },
   };
 
+  vm.labelSubmit = 'Submit';
+  vm.errorMessage = '';
+
   /* vars */
 
   var viz = new Viz();
@@ -71,10 +74,16 @@ angular.module('app', [
   /* methods */
 
   vm.refresh = function() {
-    console.log('get data...');
-    console.log('process...');
-    console.log('show viz...');
-    maps.draw();
+    if (vm.labelSubmit != 'Loading...') {
+      vm.labelSubmit = 'Loading...';
+      $http.get('data.json').then(function(res) {
+        vm.labelSubmit = 'Submit';
+        maps.draw(res.data.heatmap);
+      }, function(res) {
+        vm.labelSubmit = 'Submit';
+        vm.errorMessage = 'Error fetching data: '+res.status+' '+res.statusText;
+      });
+    }
   };
 
   /* init */
@@ -82,4 +91,5 @@ angular.module('app', [
   vm.location.onChange();
   vm.day.onChange();
   vm.refresh();
+  document.body.style.visibility = 'visible';
 }]);

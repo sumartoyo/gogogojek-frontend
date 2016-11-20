@@ -113,6 +113,14 @@ body {
   overflow: hidden;
 }
 
+#alerter {
+  position: fixed;
+  top: 50px;
+  left: 335px;
+  right: 15px;
+  z-index: 4175;
+}
+
 /* viz */
 
 #map svg {

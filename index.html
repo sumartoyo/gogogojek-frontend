@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
-  <body ng-app="app">
+  <body ng-app="app" style="visibility:hidden">
     <div ng-controller="MainCtrl as vm">
       <div id="sidebar">
         <div id="title">Go Go Go Jek</div>
@@ -121,8 +121,13 @@
                   rz-slider-options="vm.time.options"></rzslider>
 
         <div id="submitter">
-          <button type="button" class="btn btn-orange" ng-click="vm.refresh()">Submit</button>
+          <button type="button" class="btn btn-orange" ng-click="vm.refresh()">{{ vm.labelSubmit }}</button>
         </div>
+      </div>
+
+      <div id="alerter" class="alerter alert alert-danger alert-dismissible" ng-show="vm.errorMessage != ''">
+        <button type="button" class="close" ng-click="vm.errorMessage = ''"><span>&times;</span></button>
+        {{ vm.errorMessage }}
       </div>
     </div>
 
