@@ -52,6 +52,19 @@ body {
   color: #111;
 }
 
+.rzslider .rz-bubble {
+  color: #E0E0E0;
+}
+.rzslider .rz-pointer {
+  background-color: #F8C023;
+}
+.rzslider .rz-bar.rz-selection {
+  background: #F8C023;
+}
+.rzslider .rz-pointer.rz-active:after {
+  background-color: #E0E0E0;
+}
+
 /* elements */
 
 #sidebar {

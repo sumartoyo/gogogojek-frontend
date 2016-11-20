@@ -1,10 +1,19 @@
-angular.module('app', []).controller('MainCtrl', function() {
+angular.module('app', [
+  'rzModule'
+]).controller('MainCtrl', [
+  '$http',
+  function($http)
+{
   var vm = this;
+
+  /* view model */
 
   vm.aggregation = 'sum';
 
-  vm.dateFrom = '2015-01-01';
-  vm.dateTo = '2016-12-31';
+  vm.date = {
+    from: '2015-01-01',
+    to: '2015-12-31',
+  };
 
   vm.location = {
     all: true,
@@ -34,20 +43,43 @@ angular.module('app', []).controller('MainCtrl', function() {
     },
   };
 
-  vm.timeFrom = 0;
-  vm.timeTo = 24;
+  vm.time = {
+    from: 0,
+    to: 24,
+    options: {
+      floor: 0,
+      ceil: 24,
+      step: 1,
+      translate: function(value, _, label) {
+        switch (label) {
+          case 'model':
+            return '<b>From</b> '+(value < 10 ? '0'+value : value)+'.00';
+          case 'high':
+            return '<b>To</b> '+(value < 10 ? '0'+value : value)+'.00';
+          default:
+            return '';
+        }
+      },
+    },
+  };
+
+  /* vars */
+
+  var viz = new Viz();
+  var maps = new Maps(viz);
+
+  /* methods */
 
   vm.refresh = function() {
     console.log('get data...');
     console.log('process...');
     console.log('show viz...');
+    maps.draw();
   };
 
   /* init */
 
   vm.location.onChange();
   vm.day.onChange();
-
-  var viz = new Viz();
-  var maps = new Maps(viz);
-});
+  vm.refresh();
+}]);
