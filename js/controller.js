@@ -6,6 +6,11 @@ angular.module('app', [
 {
   var vm = this;
 
+  /* config */
+
+  var boundsChangeDelay = 600;
+  var apiUrl = 'http://192.168.0.101:8888/api/points';
+
   /* view model */
 
   vm.aggregation = 'sum';
@@ -44,11 +49,11 @@ angular.module('app', [
   };
 
   vm.time = {
-    from: 0,
-    to: 24,
+    from: 6,
+    to: 18,
     options: {
-      floor: 0,
-      ceil: 24,
+      floor: 6,
+      ceil: 18,
       step: 1,
       translate: function(value, _, label) {
         switch (label) {
@@ -68,16 +73,15 @@ angular.module('app', [
 
   /* vars */
 
-  var delay = 600;
   var lastChanged = 0;
   var onChangeBounds = function() {
     lastChanged = (new Date).getTime();
     setTimeout(function() {
-      if ((new Date).getTime() - lastChanged > delay) {
+      if ((new Date).getTime() - lastChanged > boundsChangeDelay) {
         var bounds = maps.map.getBounds();
         vm.refresh(bounds.f.f, bounds.b.b, bounds.f.b, bounds.b.f);
       }
-    }, delay);
+    }, boundsChangeDelay);
   };
 
   var viz = new Viz();
@@ -90,13 +94,14 @@ angular.module('app', [
     long0: 106.8480445,
     lat1: -6.0303955,
     long1: 107.0480445,
-    timeFrom: 0,
-    timeTo: 24,
+    timeFrom: 10,
+    timeTo: 18,
     n_items: 94 * 94,
   };
   vm.refresh = function(lat0, long0, lat1, long1) {
     if (vm.labelSubmit != 'Loading...') {
       vm.labelSubmit = 'Loading...';
+      vm.errorMessage = '';
 
       if (lat0) {
         request.lat0 = lat0;
@@ -107,10 +112,13 @@ angular.module('app', [
       request.timeFrom = vm.time.from;
       request.timeTo = vm.time.to;
 
-      $http.get('data.json').then(function(res) {
-        maps.draw(res.data.heatmap);
-        vm.labelSubmit = 'Submit';
+      $http.post(apiUrl, request).then(function(res) {
+        if (res.status == 200) {
+          maps.draw(res.data.data.points);
+          vm.labelSubmit = 'Submit';
+        }
       }, function(res) {
+        console.log(res);
         vm.errorMessage = 'Error fetching data: '+res.status+' '+res.statusText;
         vm.labelSubmit = 'Submit';
       });

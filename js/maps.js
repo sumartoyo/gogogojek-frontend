@@ -47,7 +47,7 @@ function Maps(viz, onChangeBounds) {
     lastHeatmap = currentHeatmap;
   };
 
-  self.draw_ = function(data) {
+  self.draw = function(data) {
     var minWeight = 9999999, maxWeight = 0;
     data.forEach(item => {
       minWeight = Math.min(minWeight, item[2]);
@@ -56,14 +56,24 @@ function Maps(viz, onChangeBounds) {
     var scaleWeight = 100 / (maxWeight - minWeight);
 
     var points = [];
-    data.forEach(item => {
-      points.push({
+    var points = data.map(item => {
+      return {
         location: new google.maps.LatLng(item[0], item[1]),
         weight: (item[2] - minWeight) * scaleWeight,
-      });
+      };
     });
-    heatmap.splice(0, heatmap.length);
-    heatmap.push.apply(heatmap, points);
+    var currentHeatmap = new google.maps.visualization.HeatmapLayer({
+      data: points,
+      map: map,
+      opacity: 0.5,
+      maxIntensity: 100,
+    });
+
+    if (lastHeatmap) {
+      lastHeatmap.setMap(null);
+      lastHeatmap = null;
+    }
+    lastHeatmap = currentHeatmap;
   }
 
   function DUMMY_generatePoints(nPoints) {
