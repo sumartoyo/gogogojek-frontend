@@ -1,4 +1,4 @@
-function Maps(viz, onChangeBounds) {
+function Maps(viz, onChangeBounds, sqrtItemCount) {
   var self = this;
 
   var map = new google.maps.Map(d3.select('#map').node(), {
@@ -66,6 +66,7 @@ function Maps(viz, onChangeBounds) {
       data: points,
       map: map,
       opacity: 0.5,
+      // radius: max($('#map').width(), $('#map').height()) / sqrtItemCount,
       maxIntensity: 100,
     });
 

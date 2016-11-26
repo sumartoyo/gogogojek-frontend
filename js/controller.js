@@ -9,6 +9,7 @@ angular.module('app', [
   /* config */
 
   var boundsChangeDelay = 600;
+  var sqrtItemCount = 94;
   var apiUrl = 'http://192.168.0.101:8888/api/points';
 
   /* view model */
@@ -85,7 +86,7 @@ angular.module('app', [
   };
 
   var viz = new Viz();
-  var maps = new Maps(viz, onChangeBounds);
+  var maps = new Maps(viz, onChangeBounds, sqrtItemCount);
 
   /* methods */
 
@@ -96,7 +97,7 @@ angular.module('app', [
     long1: 107.0480445,
     timeFrom: 10,
     timeTo: 18,
-    n_items: 94 * 94,
+    n_items: sqrtItemCount * sqrtItemCount,
   };
   vm.refresh = function(lat0, long0, lat1, long1) {
     if (vm.labelSubmit != 'Loading...') {
