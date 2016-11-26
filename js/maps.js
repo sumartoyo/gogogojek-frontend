@@ -28,9 +28,8 @@ function Maps(viz, onChangeBounds, sqrtItemCount) {
       lastHeatmap.setMap(null);
       lastHeatmap = null;
     }
-    onChangeBounds();
   };
-  // map.addListener('bounds_changed', refreshHeatmap);
+  map.addListener('bounds_changed', onChangeBounds);
   map.addListener('projection_changed', refreshHeatmap);
   map.addListener('dragend', refreshHeatmap);
   map.addListener('zoom_changed', refreshHeatmap);
@@ -50,6 +49,10 @@ function Maps(viz, onChangeBounds, sqrtItemCount) {
       opacity: 0.5,
       maxIntensity: 1,
     });
+    if (lastHeatmap) {
+      lastHeatmap.setMap(null);
+      lastHeatmap = null;
+    }
     lastHeatmap = currentHeatmap;
   }
 }
