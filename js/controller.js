@@ -90,30 +90,30 @@ angular.module('app', [
 
   /* methods */
 
-  var request = {
-    lat0: -6.2303955,
-    long0: 106.8480445,
-    lat1: -6.0303955,
-    long1: 107.0480445,
-    timeFrom: 10,
-    timeTo: 18,
+  var payload = {
+    lat_from: -6.2303955,
+    long_from: 106.8480445,
+    lat_to: -6.0303955,
+    long_to: 107.0480445,
+    time_from: 10,
+    time_to: 18,
     n_items: sqrtItemCount * sqrtItemCount,
   };
-  vm.refresh = function(lat0, long0, lat1, long1) {
+  vm.refresh = function(lat_from, long_from, lat_to, long_to) {
     if (vm.labelSubmit != 'Loading...') {
       vm.labelSubmit = 'Loading...';
       vm.errorMessage = '';
 
-      if (lat0) {
-        request.lat0 = lat0;
-        request.long0 = long0;
-        request.lat1 = lat1;
-        request.long1 = long1;
+      if (lat_from) {
+        payload.lat_from = lat_from;
+        payload.long_from = long_from;
+        payload.lat_to = lat_to;
+        payload.long_to = long_to;
       }
-      request.timeFrom = vm.time.from;
-      request.timeTo = vm.time.to;
+      payload.time_from = vm.time.from;
+      payload.time_to = vm.time.to;
 
-      $http.post(apiUrl, request).then(function(res) {
+      $http.post(apiUrl, payload).then(function(res) {
         if (res.status == 200) {
           maps.draw(res.data.data.points);
           vm.labelSubmit = 'Submit';

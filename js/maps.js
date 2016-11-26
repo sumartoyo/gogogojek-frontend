@@ -48,26 +48,19 @@ function Maps(viz, onChangeBounds, sqrtItemCount) {
   };
 
   self.draw = function(data) {
-    var minWeight = 9999999, maxWeight = 0;
-    data.forEach(item => {
-      minWeight = Math.min(minWeight, item[2]);
-      maxWeight = Math.max(maxWeight, item[2]);
-    });
-    var scaleWeight = 100 / (maxWeight - minWeight);
-
     var points = [];
     var points = data.map(item => {
       return {
         location: new google.maps.LatLng(item[0], item[1]),
-        weight: (item[2] - minWeight) * scaleWeight,
+        weight: item[2],
       };
     });
     var currentHeatmap = new google.maps.visualization.HeatmapLayer({
       data: points,
       map: map,
-      opacity: 0.5,
+      // opacity: 0.5,
       // radius: max($('#map').width(), $('#map').height()) / sqrtItemCount,
-      maxIntensity: 100,
+      maxIntensity: 1,
     });
 
     if (lastHeatmap) {
