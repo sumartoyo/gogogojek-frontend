@@ -10,7 +10,7 @@ angular.module('app', [
 
   var boundsChangeDelay = 600;
   var sqrtItemCount = 94;
-  var apiUrl = 'http://192.168.0.101:8888/api/points';
+  var apiUrl = 'http://54.169.56.109:8888/api/points';
 
   /* view model */
 
