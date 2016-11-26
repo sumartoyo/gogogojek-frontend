@@ -25,22 +25,28 @@ function Maps(viz) {
   var heatmapLayer = new google.maps.visualization.HeatmapLayer({
     data: heatmap,
     map: map,
+    opacity: 0.5,
     maxIntensity: 100,
+  });
+
+  map.addListener('bounds_changed', function() {
+    var bounds = map.getBounds();
+    console.log('bounds_changed', bounds.f.f, bounds.b.b, bounds.f.b, bounds.b.f);
   });
 
   self.draw = function() {
     heatmap.splice(0, heatmap.length);
-    DUMMY_generatePoints(2000).forEach(pos => {
+    DUMMY_generatePoints(94*94).forEach(pos => {
       var rand = Math.random();
-      rand = rand < 0.5 ? 0.5 : rand;
+      rand = rand < 0.75 ? 0.75 : rand;
       heatmap.push({
         location: new google.maps.LatLng(pos.lat, pos.long),
-        weight: (rand - 0.5) * 200,
+        weight: (rand - 0.75) * 200,
       });
     });
   };
 
-  self.draw = function(data) {
+  self.draw_ = function(data) {
     var minWeight = 9999999, maxWeight = 0;
     data.forEach(item => {
       minWeight = Math.min(minWeight, item[2]);
