@@ -20,27 +20,31 @@ function Maps(viz, onChangeBounds) {
   ], { name: 'Custom' });
   map.mapTypes.set('gogogojek', mapType);
   map.setMapTypeId('gogogojek');
+  map.addListener('bounds_changed', onChangeBounds);
   self.map = map;
 
-  var heatmapLayer = new google.maps.visualization.HeatmapLayer({
-    data: [],
-    map: map,
-    opacity: 0.5,
-    maxIntensity: 100,
-  });
-
-  map.addListener('bounds_changed', onChangeBounds);
-
+  var lastHeatmap;
   self.draw = function() {
-    heatmapLayer.data.clear();
-    DUMMY_generatePoints(94*94).forEach(pos => {
+    var data = DUMMY_generatePoints(94*94).map(pos => {
       var rand = Math.random();
       rand = rand < 0.75 ? 0.75 : rand;
-      heatmapLayer.data.push({
+      return {
         location: new google.maps.LatLng(pos.lat, pos.long),
         weight: (rand - 0.75) * 200,
-      });
+      };
     });
+    var currentHeatmap = new google.maps.visualization.HeatmapLayer({
+      data: data,
+      map: map,
+      opacity: 0.5,
+      maxIntensity: 100,
+    });
+
+    if (lastHeatmap) {
+      lastHeatmap.setMap(null);
+      lastHeatmap = null;
+    }
+    lastHeatmap = currentHeatmap;
   };
 
   self.draw_ = function(data) {
