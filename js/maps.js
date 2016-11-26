@@ -1,4 +1,4 @@
-function Maps(viz) {
+function Maps(viz, onChangeBounds) {
   var self = this;
 
   var map = new google.maps.Map(d3.select('#map').node(), {
@@ -20,26 +20,23 @@ function Maps(viz) {
   ], { name: 'Custom' });
   map.mapTypes.set('gogogojek', mapType);
   map.setMapTypeId('gogogojek');
+  self.map = map;
 
-  var heatmap = [];
   var heatmapLayer = new google.maps.visualization.HeatmapLayer({
-    data: heatmap,
+    data: [],
     map: map,
     opacity: 0.5,
     maxIntensity: 100,
   });
 
-  map.addListener('bounds_changed', function() {
-    var bounds = map.getBounds();
-    console.log('bounds_changed', bounds.f.f, bounds.b.b, bounds.f.b, bounds.b.f);
-  });
+  map.addListener('bounds_changed', onChangeBounds);
 
   self.draw = function() {
-    heatmap.splice(0, heatmap.length);
+    heatmapLayer.data.clear();
     DUMMY_generatePoints(94*94).forEach(pos => {
       var rand = Math.random();
       rand = rand < 0.75 ? 0.75 : rand;
-      heatmap.push({
+      heatmapLayer.data.push({
         location: new google.maps.LatLng(pos.lat, pos.long),
         weight: (rand - 0.75) * 200,
       });
