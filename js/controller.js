@@ -100,6 +100,7 @@ angular.module('app', [
     n_items: sqrtItemCount * sqrtItemCount,
   };
   vm.refresh = function(lat_from, long_from, lat_to, long_to) {
+    console.log('request data '+(new Date).getTime());
     if (vm.labelSubmit != 'Loading...') {
       vm.labelSubmit = 'Loading...';
       vm.errorMessage = '';
