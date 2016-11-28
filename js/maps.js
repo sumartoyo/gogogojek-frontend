@@ -1,4 +1,4 @@
-function Maps(viz, onChangeBounds, sqrtItemCount) {
+function Maps(onChangeBounds, sqrtItemCount) {
   var self = this;
 
   var map = new google.maps.Map(d3.select('#map').node(), {
@@ -34,7 +34,7 @@ function Maps(viz, onChangeBounds, sqrtItemCount) {
   // map.addListener('dragend', refreshHeatmap);
   map.addListener('zoom_changed', refreshHeatmap);
 
-  self.draw = function(data) {
+  self.draw = function(data, sqrtItemCount) {
     var points = [];
     var points = data.map(item => {
       return {
@@ -48,7 +48,9 @@ function Maps(viz, onChangeBounds, sqrtItemCount) {
       map: map,
       opacity: 0.5,
       maxIntensity: 1,
+      radius: Math.round(Math.max($('#map').width(), $('#map').height()) / sqrtItemCount),
     });
+    console.log('radius', currentHeatmap.radius);
     if (lastHeatmap) {
       lastHeatmap.setMap(null);
       lastHeatmap = null;

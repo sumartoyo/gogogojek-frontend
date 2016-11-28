@@ -8,9 +8,9 @@ angular.module('app', [
 
   /* config */
 
-  var boundsChangeDelay = 100;
+  var boundsChangeDelay = 600;
   var sqrtItemCount = 188;
-  var apiUrl = 'http://localhost:8888/api/points';
+  var apiUrl = 'http://54.169.56.109:8888/api/points';
 
   /* view model */
 
@@ -85,8 +85,7 @@ angular.module('app', [
     }, boundsChangeDelay);
   };
 
-  var viz = new Viz();
-  var maps = new Maps(viz, onChangeBounds, sqrtItemCount);
+  var maps = new Maps(onChangeBounds, sqrtItemCount);
 
   /* methods */
 
@@ -100,7 +99,7 @@ angular.module('app', [
     n_items: sqrtItemCount * sqrtItemCount,
   };
   vm.refresh = function(lat_from, long_from, lat_to, long_to) {
-    console.log('request data '+(new Date).getTime());
+    console.log('request data', (new Date).getTime(), (new Date).toISOString());
     if (vm.labelSubmit != 'Loading...') {
       vm.labelSubmit = 'Loading...';
       vm.errorMessage = '';
@@ -116,7 +115,7 @@ angular.module('app', [
 
       $http.post(apiUrl, payload).then(function(res) {
         if (res.status == 200) {
-          maps.draw(res.data.data.points);
+          maps.draw(res.data.data.points, sqrtItemCount);
           vm.labelSubmit = 'Submit';
         }
       }, function(res) {
