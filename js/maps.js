@@ -28,10 +28,11 @@ function Maps(onChangeBounds, sqrtItemCount) {
       lastHeatmap.setMap(null);
       lastHeatmap = null;
     }
+    onChangeBounds();
   };
-  map.addListener('bounds_changed', onChangeBounds);
-  // map.addListener('projection_changed', refreshHeatmap);
-  // map.addListener('dragend', refreshHeatmap);
+  // map.addListener('bounds_changed', onChangeBounds);
+  map.addListener('projection_changed', refreshHeatmap);
+  map.addListener('dragend', refreshHeatmap);
   map.addListener('zoom_changed', refreshHeatmap);
 
   self.draw = function(data, sqrtItemCount) {
