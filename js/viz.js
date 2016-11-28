@@ -17,6 +17,7 @@ function Viz() {
       var p0 = projection.fromLatLngToDivPixel(new google.maps.LatLng(0, 0));
       var p1 = projection.fromLatLngToDivPixel(new google.maps.LatLng(heatmap.cellsize, 0));
       var radius = p0.y - p1.y;
+      console.log(radius)
 
       setTimeout(function() {
         svg.selectAll('rect').remove();

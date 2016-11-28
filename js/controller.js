@@ -8,9 +8,9 @@ angular.module('app', [
 
   /* config */
 
-  var boundsChangeDelay = 600;
-  var sqrtItemCount = 94;
-  var apiUrl = 'http://54.169.56.109:8888/api/points';
+  var boundsChangeDelay = 100;
+  var sqrtItemCount = 188;
+  var apiUrl = 'http://localhost:8888/api/points';
 
   /* view model */
 
