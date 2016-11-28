@@ -1,4 +1,4 @@
-function Maps(onChangeBounds, sqrtItemCount) {
+function Maps(onEvent, onChangeBounds, sqrtItemCount) {
   var self = this;
 
   var map = new google.maps.Map(d3.select('#map').node(), {
@@ -23,19 +23,27 @@ function Maps(onChangeBounds, sqrtItemCount) {
   map.setMapTypeId('gogogojek');
 
   var lastHeatmap;
-  var refreshHeatmap = function() {
+  var clearHeatmap = function() {
     if (lastHeatmap) {
       lastHeatmap.setMap(null);
       lastHeatmap = null;
     }
-    onChangeBounds();
   };
-  // map.addListener('bounds_changed', onChangeBounds);
-  map.addListener('projection_changed', refreshHeatmap);
-  map.addListener('dragend', refreshHeatmap);
-  map.addListener('zoom_changed', refreshHeatmap);
+  map.addListener('idle', function() {
+    onEvent('idle');
+    onChangeBounds();
+  });
+  map.addListener('dragstart', function() {
+    onEvent('dragstart');
+  });
+  map.addListener('zoom_changed', function() {
+    onEvent('zoom_changed');
+    clearHeatmap();
+  });
 
   self.draw = function(data, sqrtItemCount) {
+    console.log('drawing...');
+
     var points = [];
     var points = data.map(item => {
       return {
@@ -44,18 +52,18 @@ function Maps(onChangeBounds, sqrtItemCount) {
       };
     });
 
+    if (lastHeatmap) {
+      lastHeatmap.setMap(null);
+      lastHeatmap = null;
+    }
+
     var currentHeatmap = new google.maps.visualization.HeatmapLayer({
       data: points,
       map: map,
       opacity: 0.5,
       maxIntensity: 1,
-      radius: Math.round(Math.max($('#map').width(), $('#map').height()) / sqrtItemCount),
+      radius: Math.round(Math.max($('#map').width(), $('#map').height()) / (sqrtItemCount / 1.4)),
     });
-    console.log('radius', currentHeatmap.radius);
-    if (lastHeatmap) {
-      lastHeatmap.setMap(null);
-      lastHeatmap = null;
-    }
     lastHeatmap = currentHeatmap;
   }
 }

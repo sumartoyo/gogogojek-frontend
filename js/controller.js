@@ -8,7 +8,6 @@ angular.module('app', [
 
   /* config */
 
-  var boundsChangeDelay = 600;
   var sqrtItemCount = 94;
   var apiUrl = 'http://54.169.56.109:8888/api/points';
 
@@ -74,21 +73,12 @@ angular.module('app', [
 
   /* vars */
 
-  var lastChanged = 0;
-  var onChangeBounds = function() {
-    lastChanged = (new Date).getTime();
-    setTimeout(function() {
-      if ((new Date).getTime() - lastChanged > boundsChangeDelay) {
-        var bounds = maps.map.getBounds();
-        vm.refresh(bounds.f.f, bounds.b.b, bounds.f.b, bounds.b.f);
-      }
-    }, boundsChangeDelay);
-  };
+  var onEvent = function(trigger) {
+    vm.labelSubmit = 'Loading...';
+    console.log(trigger+' fired');
+  }
 
-  var maps = new Maps(onChangeBounds, sqrtItemCount);
-
-  /* methods */
-
+  var lastRequest = 0;
   var payload = {
     lat_from: -6.2303955,
     long_from: 106.8480445,
@@ -98,32 +88,42 @@ angular.module('app', [
     time_to: 18,
     n_items: sqrtItemCount * sqrtItemCount,
   };
-  vm.refresh = function(lat_from, long_from, lat_to, long_to) {
-    console.log('request data', (new Date).getTime(), (new Date).toISOString());
-    if (vm.labelSubmit != 'Loading...') {
-      vm.labelSubmit = 'Loading...';
-      vm.errorMessage = '';
+  var onChangeBounds = function() {
+    vm.errorMessage = '';
 
-      if (lat_from) {
-        payload.lat_from = lat_from;
-        payload.long_from = long_from;
-        payload.lat_to = lat_to;
-        payload.long_to = long_to;
-      }
-      payload.time_from = vm.time.from;
-      payload.time_to = vm.time.to;
+    var bounds = maps.map.getBounds();
+    payload.lat_from = bounds.f.f;
+    payload.long_from = bounds.b.b;
+    payload.lat_to = bounds.f.b;
+    payload.long_to = bounds.b.f;
+    payload.time_from = vm.time.from;
+    payload.time_to = vm.time.to;
 
-      $http.post(apiUrl, payload).then(function(res) {
-        if (res.status == 200) {
+    var myRequest = (new Date).getTime();
+    lastRequest = myRequest;
+    console.log('requesting...', myRequest);
+
+    $http.post(apiUrl, payload).then(function(res) {
+      if (res.status == 200) {
+        if (myRequest == lastRequest) {
           maps.draw(res.data.data.points, sqrtItemCount);
           vm.labelSubmit = 'Submit';
         }
-      }, function(res) {
-        console.log(res);
-        vm.errorMessage = 'Error fetching data: '+res.status+' '+res.statusText;
-        vm.labelSubmit = 'Submit';
-      });
-    }
+      }
+    }, function(res) {
+      console.log(res);
+      vm.errorMessage = 'Error fetching data: '+res.status+' '+res.statusText;
+      vm.labelSubmit = 'Submit';
+    });
+  };
+
+  var maps = new Maps(onEvent, onChangeBounds, sqrtItemCount);
+
+  /* methods */
+
+  vm.refresh = function() {
+    onEvent('submit');
+    onChangeBounds();
   };
 
   /* init */
