@@ -7,124 +7,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/5.8.7/rzslider.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.5/css/highcharts.css" />
     <link rel="stylesheet" href="css/awesome-bootstrap-checkbox.css">
     <link rel="stylesheet" href="css/main.css">
   </head>
   <body ng-app="app" style="visibility:hidden">
     <div ng-controller="MainCtrl as vm">
       <div id="sidebar">
-          <div id="title"><h2>Go Go Go Jek</h2></div>
-            <p>Peta Pemesanan GoJek/GoFood</p>
+        <div id="title"><h2>Go Go Go Jek</h2></div>
+        <p>Peta Pemesanan GoJek/GoFood</p>
         <div class="option-name">Deskripsi</div>
-            <p>Heatmap ini menggambarkan jumlah pemesanan GoJek/GoFood untuk daerah tertentu di Indonesia pada rentang waktu antara pukul 06.00 s/d 18.00 WIB, tanggal 23 November 2015.</p>
-            <p>Warna</b> pada suatu titik di heatmap menunjukkan jumlah pemesanan relatif terhadap titik lain yang tampak pada peta. Warna merah menunjukkan jumlah pemesanan yang relatif banyak</b> dan hijau jumlah pemesanan yang relatif sedikit</b>.</p>
-        <!-- <div class="option-name">Aggregation</div>
-        <div class="float-half-left">
-          <div class="radio radio-orange">
-            <input type="radio" id="radio11" ng-model="vm.aggregation" value="avg">
-            <label for="radio11">Average</label>
-          </div>
-        </div>
-        <div class="float-half-right">
-          <div class="radio radio-orange">
-            <input type="radio" id="radio12" ng-model="vm.aggregation" value="sum">
-            <label for="radio12">Sum</label>
-          </div>
-        </div>
-        <div class="float-clear"></div> -->
+        <p>
+          Visualisasi ini menggambarkan pemesanan GoJek/GoFood untuk daerah tertentu di Indonesia pada rentang waktu antara pukul 10.00 s/d 18.00 WIB, tanggal 23 November 2015.
+          <span ng-show="vm.viewType != 'evaluasi'"><a href="javascript:;" ng-click="vm.viewType = 'evaluasi'">Hasil evaluasi</a>.</span>
+        </p>
 
-        <!-- <div class="option-name">Date Interval</div>
-        <div class="float-half-left">
-          <span>From</span>
-          <p>
-            <input type="text" class="form-control" ng-model="vm.date.from" data-provide="datepicker" data-date-format="yyyy-mm-dd">
+        <div ng-show="vm.viewType == 'heatmap'">
+          <p>Warna</b> pada suatu titik di heatmap menunjukkan jumlah pemesanan relatif terhadap titik lain yang tampak pada peta. Warna merah menunjukkan jumlah pemesanan yang relatif banyak</b> dan hijau jumlah pemesanan yang relatif sedikit</b>.</p>
+
+          <p style="text-align:center">Go to city:<br>
+            <a href="javascript:;" ng-click="vm.goto('jakarta')">Jakarta</a> &middot;
+            <a href="javascript:;" ng-click="vm.goto('bandung')">Bandung</a> &middot;
+            <a href="javascript:;" ng-click="vm.goto('surabaya')">Surabaya</a><br>
+            <a href="javascript:;" ng-click="vm.goto('denpasar')">Denpasar</a> &middot;
+            <a href="javascript:;" ng-click="vm.goto('makassar')">Makassar</a> &middot;
+            <a href="javascript:;" ng-click="vm.goto('palembang')">Palembang</a>
           </p>
-        </div>
-        <div class="float-half-right">
-          <span>To</span>
-          <p>
-            <input type="text" class="form-control" ng-model="vm.date.to" data-provide="datepicker" data-date-format="yyyy-mm-dd">
-          </p>
-        </div>
-        <div class="float-clear"></div> -->
 
-        <!-- <div class="option-name">Filter Location</div>
-        <div class="float-half-left">
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox11" ng-model="vm.location.all" ng-change="vm.location.onChange()">
-            <label for="checkbox11">ALL</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox12" ng-model="vm.location.timur">
-            <label for="checkbox12">Jakarta Timur</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox13" ng-model="vm.location.barat">
-            <label for="checkbox13">Jakarta Barat</label>
-          </div>
-        </div>
-        <div class="float-half-right">
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox14" ng-model="vm.location.utara">
-            <label for="checkbox14">Jakarta Utara</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox15" ng-model="vm.location.pusat">
-            <label for="checkbox15">Jakarta Pusat</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox16"  ng-model="vm.location.selatan">
-            <label for="checkbox16">Jakarta Selatan</label>
-          </div>
-        </div>
-        <div class="float-clear"></div> -->
+          <div class="option-name">Filter Time</div>
+          <rzslider rz-slider-model="vm.time.from"
+                    rz-slider-high="vm.time.to"
+                    rz-slider-options="vm.time.options"></rzslider>
 
-        <!-- <div class="option-name">Filter Days</div>
-        <div class="float-half-left">
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox21" ng-model="vm.day.all" ng-change="vm.day.onChange()">
-            <label for="checkbox21">ALL</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox22" ng-model="vm.day.monday">
-            <label for="checkbox22">Monday</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox23" ng-model="vm.day.tuesday">
-            <label for="checkbox23">Tuesday</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox24" ng-model="vm.day.wednesday">
-            <label for="checkbox24">Wednesday</label>
+          <div class="submitter">
+            <button type="button" class="btn btn-orange" ng-click="vm.refresh()">{{ vm.labelSubmit }}</button>
           </div>
         </div>
-        <div class="float-half-right">
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox25" ng-model="vm.day.thursday">
-            <label for="checkbox25">Thursday</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox26" ng-model="vm.day.friday">
-            <label for="checkbox26">Friday</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox27" ng-model="vm.day.saturday">
-            <label for="checkbox27">Saturday</label>
-          </div>
-          <div class="checkbox checkbox-orange">
-            <input type="checkbox" id="checkbox28" ng-model="vm.day.sunday">
-            <label for="checkbox28">Sunday</label>
-          </div>
-        </div>
-        <div class="float-clear"></div> -->
 
-        <div class="option-name">Filter Time</div>
-        <rzslider rz-slider-model="vm.time.from"
-                  rz-slider-high="vm.time.to"
-                  rz-slider-options="vm.time.options"></rzslider>
+        <div ng-show="vm.viewType == 'charts'">
+          <div class="option-name">Status</div>
+          <div class="float-half-left">
+            <div class="radio radio-orange">
+              <input type="radio" id="radio11" ng-model="vm.status" value="all">
+              <label for="radio11">ALL</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio12" ng-model="vm.status" value="canceled_by_user">
+              <label for="radio12">Cancel by User</label>
+            </div>
+          </div>
+          <div class="float-half-right">
+            <div class="radio radio-orange">
+              <input type="radio" id="radio13" ng-model="vm.status" value="success">
+              <label for="radio13">Success</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio14" ng-model="vm.status" value="canceled_by_driver">
+              <label for="radio14">Cancel by Driver</label>
+            </div>
+          </div>
+          <div class="float-clear"></div>
 
-        <div id="submitter">
-          <button type="button" class="btn btn-orange" ng-click="vm.refresh()">{{ vm.labelSubmit }}</button>
+          <div class="option-name">City</div>
+          <div class="float-half-left">
+            <div class="radio radio-orange">
+              <input type="radio" id="radio21" ng-model="vm.city" value="all">
+              <label for="radio21">ALL</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio22" ng-model="vm.city" value="jakarta">
+              <label for="radio22">Jakarta</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio23" ng-model="vm.city" value="bandung">
+              <label for="radio23">Bandung</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio24" ng-model="vm.city" value="surabaya">
+              <label for="radio24">Surabaya</label>
+            </div>
+          </div>
+          <div class="float-half-right">
+            <div class="radio radio-orange">
+              <input type="radio" id="radio25" ng-model="vm.city" value="denpasar">
+              <label for="radio25">Denpasar</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio26" ng-model="vm.city" value="makassar">
+              <label for="radio26">Makassar</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio27" ng-model="vm.city" value="palembang">
+              <label for="radio27">Palembang</label>
+            </div>
+            <div class="radio radio-orange">
+              <input type="radio" id="radio28" ng-model="vm.city" value="other">
+              <label for="radio28">other</label>
+            </div>
+          </div>
+          <div class="float-clear"></div>
         </div>
       </div>
 
@@ -132,18 +113,168 @@
         <button type="button" class="close" ng-click="vm.errorMessage = ''"><span>&times;</span></button>
         {{ vm.errorMessage }}
       </div>
-    </div>
 
-    <div id="map"></div>
+      <div id="map" ng-non-bindable></div>
+
+      <div id="charts" ng-show="vm.viewType == 'charts'">
+        <h3>Pesanan pada daerah</h3>
+        <div style="max-width:1036px;margin:0 auto">
+          <div class="float-half-left">
+            <canvas class="chart chart-bar" height="200"
+              chart-options="vm.chart.bar.order.options"
+              chart-data="vm.chart.bar.order.data"
+              chart-labels="vm.chart.bar.order.labels"></canvas>
+          </div>
+          <div class="float-half-left">
+            <canvas class="chart chart-bar" height="200"
+              chart-options="vm.chart.bar.amount.options"
+              chart-data="vm.chart.bar.amount.data"
+              chart-labels="vm.chart.bar.amount.labels"></canvas>
+          </div>
+          <div class="float-clear"></div>
+        </div>
+
+        <div style="height:25px"></div>
+        <div style="max-width:600px;margin:0 auto">
+          <div class="float-half-left">
+            <canvas class="chart chart-pie"
+              chart-options="vm.chart.pie.order.options"
+              chart-data="vm.chart.pie.order.data"
+              chart-labels="vm.chart.pie.order.labels"></canvas>
+          </div>
+          <div class="float-half-left">
+            <canvas class="chart chart-pie"
+              chart-options="vm.chart.pie.amount.options"
+              chart-data="vm.chart.pie.amount.data"
+              chart-labels="vm.chart.pie.amount.labels"></canvas>
+          </div>
+          <div class="float-clear"></div>
+        </div>
+
+        <div style="height:50px"></div>
+
+        <h3>Pesanan pada jam</h3>
+        <div style="max-width:1036px;margin:0 auto">
+          <div class="float-half-left">
+            <canvas class="chart chart-line" height="200"
+              chart-options="vm.chart.line.order.options"
+              chart-series="vm.chart.line.order.series"
+              chart-data="vm.chart.line.order.data"
+              chart-dataset-override="vm.chart.line.order.datasetOverride"
+              chart-labels="vm.chart.line.order.labels"></canvas>
+          </div>
+          <div class="float-half-left">
+            <canvas class="chart chart-line" height="200"
+              chart-options="vm.chart.line.amount.options"
+              chart-series="vm.chart.line.amount.series"
+              chart-data="vm.chart.line.amount.data"
+              chart-dataset-override="vm.chart.line.amount.datasetOverride"
+              chart-labels="vm.chart.line.amount.labels"></canvas>
+          </div>
+          <div class="float-clear"></div>
+        </div>
+
+        <div style="height:50px"></div>
+      </div>
+
+      <div id="evaluasi" ng-show="vm.viewType == 'evaluasi'">
+        <h3>Berikut ini adalah hasil kuesioner evaluasi visualisasi data ini</h3>
+        <p style="text-align:center">
+          <img src="img/evaluasi/01.png">
+          <img src="img/evaluasi/01.png">
+          <img src="img/evaluasi/02.png">
+          <img src="img/evaluasi/03.png">
+          <img src="img/evaluasi/04.png">
+          <img src="img/evaluasi/05.png">
+          <img src="img/evaluasi/06.png">
+          <img src="img/evaluasi/07.png">
+          <img src="img/evaluasi/08.png">
+          <img src="img/evaluasi/09.png">
+          <img src="img/evaluasi/10.png">
+          <img src="img/evaluasi/11.png">
+          <img src="img/evaluasi/12.png">
+          <img src="img/evaluasi/13.png">
+          <img src="img/evaluasi/14.png">
+          <img src="img/evaluasi/15.png">
+          <img src="img/evaluasi/16.png">
+          <img src="img/evaluasi/17.png">
+          <img src="img/evaluasi/18.png">
+          <img src="img/evaluasi/19.png">
+          <img src="img/evaluasi/20.png">
+          <img src="img/evaluasi/21.png">
+          <img src="img/evaluasi/22.png">
+          <img src="img/evaluasi/23.png">
+          <img src="img/evaluasi/24.png">
+        </p>
+
+        <p>
+          <h3>Rincian hasil evaluasi</h3>
+          <table class="table table-striped table-bordered">
+<tr><th></th><th colspan="6">Jumlah respon untuk setiap angka rating</th></tr>
+<tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+
+<tr><th colspan="7">Tujuan dan sifat visualisasi data</th></tr>
+<tr><td>Visualisasi data ini memiliki tujuan explanatory</td><td>1</td><td>1</td><td>2</td><td>5</td><td>10</td><td>6</td></tr>
+<tr><td>Visualisasi data ini memiliki tujuan exploratory</td><td>2</td><td>4</td><td>3</td><td>6</td><td>5</td><td>5</td></tr>
+<tr><td>Visualisasi data ini memiliki tujuan exhibition</td><td>3</td><td>2</td><td>8</td><td>6</td><td>3</td><td>3</td></tr>
+<tr><td>Visualisasi data ini bersifat pragmatik/analitik</td><td>0</td><td>3</td><td>3</td><td>4</td><td>9</td><td>6</td></tr>
+<tr><td>Visualisasi data ini bersifat abstrak/emotive</td><td>4</td><td>7</td><td>5</td><td>4</td><td>5</td><td>0</td></tr>
+
+<tr><th colspan="7">Tujuan khusus visualisasi data</th></tr>
+<tr><td>Judul/deskripsi visualisasi data ini telah sesuai dengan visualisasi data yang ditampilkan</td><td>0</td><td>0</td><td>1</td><td>7</td><td>6</td><td>11</td></tr>
+<tr><td>Dari visualisasi ini saya mendapat gambaran mengenai jumlah pesanan GO-JEK pada waktu dan tempat tertentu</td><td>1</td><td>1</td><td>3</td><td>7</td><td>8</td><td>5</td></tr>
+<tr><td>Jika saya merupakan bagian dari marketing GO-JEK, maka informasi yang saya dapatkan dari visualisasi ini dapat membantu saya melakukan penempatan driver secara optimal</td><td>0</td><td>0</td><td>2</td><td>5</td><td>9</td><td>9</td></tr>
+<tr><td>Jika saya merupakan bagian dari marketing GO-JEK, maka informasi yang saya dapatkan dari visualisasi ini dapat membantu saya menentukan tarif secara optimal</td><td>0</td><td>1</td><td>3</td><td>8</td><td>8</td><td>5</td></tr>
+<tr><td>Jika saya merupakan pengguna GO-JEK/GO-FOOD, maka informasi pada visualisasi dapat membantu saya untuk memutuskan apakah pada jam-jam tertentu saya akan memesan GO-JEK/GO-FOOD atau menggunakan fasilitas yang lain</td><td>0</td><td>2</td><td>3</td><td>8</td><td>8</td><td>4</td></tr>
+
+<tr><th colspan="7">Interaksi pada visualisasi</th></tr>
+<tr><td>Fitur pada visualisasi data ini mudah digunakan</td><td>0</td><td>0</td><td>2</td><td>5</td><td>9</td><td>9</td></tr>
+<tr><td>Slider range waktu (jam) membantu saya untuk mendapatkan informasi dengan lebih baik</td><td>0</td><td>0</td><td>1</td><td>4</td><td>12</td><td>8</td></tr>
+<tr><td>Fitur pada Google Maps (zoom in/out dan geser) membantu saya untuk mendapatkan informasi dengan lebih baik</td><td>1</td><td>1</td><td>2</td><td>7</td><td>6</td><td>8</td></tr>
+<tr><td>Slider range dan fitur pada Google Maps (zoom in/out dan geser) sudah cukup untuk filter</td><td>1</td><td>4</td><td>6</td><td>4</td><td>5</td><td>5</td></tr>
+
+<tr><th colspan="7">Fungsional visualisasi data</th></tr>
+<tr><td>Metode visualisasi yang digunakan sudah tepat</td><td>0</td><td>0</td><td>3</td><td>3</td><td>14</td><td>5</td></tr>
+<tr><td>Pemilihan data untuk visualisasi ini sudah tepat</td><td>0</td><td>2</td><td>3</td><td>5</td><td>11</td><td>4</td></tr>
+
+<tr><th colspan="7">Desain visualisasi</th></tr>
+<tr><td>Ketika melihat visualisasi ini saya tidak berpikir 2 kali untuk mengerti maksudnya</td><td>0</td><td>1</td><td>4</td><td>2</td><td>14</td><td>4</td></tr>
+<tr><td>Bentuk yang dipilih untuk mewakili data sudah tepat</td><td>0</td><td>0</td><td>4</td><td>5</td><td>12</td><td>4</td></tr>
+<tr><td>Warna yang dipilih untuk mewakili data sudah tepat</td><td>0</td><td>2</td><td>1</td><td>4</td><td>10</td><td>8</td></tr>
+<tr><td>Jumlah titik data optimal (tidak terlalu banyak atau terlalu sedikit</td><td>0</td><td>1</td><td>4</td><td>7</td><td>11</td><td>2</td></tr>
+<tr><td>Jumlah titik data yang dinamis mempermudah saya dalam mencerna informasi dari visualisasi data ini</td><td>0</td><td>2</td><td>2</td><td>10</td><td>7</td><td>4</td></tr>
+<tr><td>Titik data yang bebeda terlihat dapat dibedakan</td><td>0</td><td>1</td><td>5</td><td>8</td><td>9</td><td>2</td></tr>
+<tr><td>Pewarnaan heat map secara relatif mempermudah saya dalam mencerna informasi dari visualisasi data ini</td><td>0</td><td>0</td><td>3</td><td>5</td><td>11</td><td>6</td></tr>
+<tr><td>Terdapat variabel visual yang menonjol tetapi sebetulnya merepresetasikan sesuatu yang tidak penting</td><td>2</td><td>3</td><td>10</td><td>5</td><td>2</td><td>3</td></tr>
+          </table>
+        </p>
+      </div>
+
+      <div id="selector">
+        <select class="form-control" ng-model="vm.viewType">
+          <option value="heatmap">Heatmap View</option>
+          <option value="charts">Charts View</option>
+          <option value="evaluasi">Hasil Evaluasi</option>
+        </select>
+      </div>
+
+      <div id="legend" ng-show="vm.viewType == 'heatmap'">
+        <div id="color"></div>
+        <div class="legend-label">Tarif (Rp):</div>
+        <div class="weights" style="text-align:left">{{ vm.legend.min }}</div>
+        <div class="weights" style="text-align:center">{{ vm.legend.mid }}</div>
+        <div class="weights" style="text-align:right">{{ vm.legend.max }}</div>
+      </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.14/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-slider/5.8.7/rzslider.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.0.3/angular-chart.min.js"></script>
     <script src="https://maps.google.com/maps/api/js?key=AIzaSyADRaHt8UYaaQqTZM4F5GH4HFgCzIXjJVw&amp;libraries=visualization"></script>
-    <script src="https://d3js.org/d3.v3.min.js"></script>
 
     <script src="js/maps.js?v0.1.23"></script>
     <script src="js/controller.js?v0.1.23"></script>
