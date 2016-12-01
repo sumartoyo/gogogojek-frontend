@@ -23,9 +23,9 @@
     vm.errorMessage = '';
 
     vm.legend = {
-      min: 100,
-      mid: 2000,
-      max: 40000,
+      min: '?',
+      mid: '?',
+      max: '?',
     }
 
     vm.time = {
@@ -91,6 +91,9 @@
           if (myRequest == lastRequest) {
             maps.draw(res.data.data.points, sqrtItemCount);
             vm.labelSubmit = 'Submit';
+            vm.legend.min = res.data.data.min;
+            vm.legend.max = res.data.data.max;
+            vm.legend.mid = Math.round((res.data.data.max - res.data.data.min) / 2);
           }
         }
       }, function(res) {
