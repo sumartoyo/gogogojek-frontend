@@ -4,26 +4,7 @@
     'chart.js',
   ])
 
-  module.config(['ChartJsProvider', function (ChartJsProvider) {
-    ChartJsProvider.setOptions({
-      chartColors: ['#5DA5DA', '#FAA43A', '#60BD68', '#F17CB0', '#B2912F', '#B276B2', '#DECF3F', '#F15854', '#4D4D4D'],
-    });
-    ChartJsProvider.setOptions('pie', {
-      title: {
-        display: true,
-      },
-    });
-    ChartJsProvider.setOptions('bar', {
-      title: {
-        display: true,
-      },
-    });
-    ChartJsProvider.setOptions('line', {
-      title: {
-        display: true,
-      },
-    });
-  }]);
+  module.config(['ChartJsProvider', configureChart]);
 
   module.controller('MainCtrl', ['$http', '$timeout', '$scope', function($http, $timeout, $scope) {
     var vm = this;
@@ -35,9 +16,8 @@
 
     /* view model */
 
-    vm.viewType = 'charts';
+    vm.viewType = 'heatmap';
     vm.status = 'all';
-    vm.city = 'all';
 
     vm.labelSubmit = 'Submit';
     vm.errorMessage = '';
@@ -68,134 +48,11 @@
       },
     };
 
-    vm.chart = {
-      bar: {
-        order: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Banyaknya pesanan',
-            },
-          },
-        },
-        amount: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Total tarif',
-            },
-          },
-        },
-        distance: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Total jarak',
-            },
-          },
-        },
-      },
-      pie: {
-        order: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Proporsi banyaknya pesanan',
-            },
-          },
-        },
-        amount: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Proporsi total tarif',
-            },
-          },
-        },
-        distance: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Proporsi total jarak',
-            },
-          },
-        },
-      },
-      line: {
-        order: {
-          labels: ['10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00', '17.00', '18.00'],
-          series: ['Jakarta', 'Bandung', 'Surabaya'],
-          data: [
-            [65, 59, 80, 81, 56, 55, 40, 14, 14],
-            [28, 48, 40, 19, 86, 27, 90, 80, 80],
-            [18, 38, 30, 29, 76, 37, 80, 70, 80],
-          ],
-          datasetOverride: [{
-            fill: false,
-          },{
-            fill: false,
-          },{
-            fill: false,
-          }],
-          options: {
-            legend: {
-              display: true,
-            },
-            title: {
-              text: 'Banyaknya pesanan',
-            },
-          },
-        },
-        amount: {
-          labels: ['10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00', '17.00', '18.00'],
-          series: ['Jakarta', 'Bandung', 'Surabaya'],
-          data: [
-            [65, 59, 80, 81, 56, 55, 40, 14, 14],
-            [28, 48, 40, 19, 86, 27, 90, 80, 80],
-            [18, 38, 30, 29, 76, 37, 80, 70, 80],
-          ],
-          datasetOverride: [{
-            fill: false,
-          },{
-            fill: false,
-          },{
-            fill: false,
-          }],
-          options: {
-            title: {
-              text: 'Total tarif',
-            },
-          },
-        },
-        distance: {
-          labels: ['10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00', '17.00', '18.00'],
-          series: ['Jakarta', 'Bandung', 'Surabaya'],
-          data: [
-            [65, 59, 80, 81, 56, 55, 40, 14, 14],
-            [28, 48, 40, 19, 86, 27, 90, 80, 80],
-            [18, 38, 30, 29, 76, 37, 80, 70, 80],
-          ],
-          datasetOverride: [{
-            fill: false,
-          },{
-            fill: false,
-          },{
-            fill: false,
-          }],
-          options: {
-            title: {
-              text: 'Total jarak',
-            },
-          },
-        },
-      },
-    };
+    var chartData = makeChartData();
+    vm.chart = chartData.chart;
+    var data = chartData.data;
+    var cities = chartData.cities;
+    var hoursKey = chartData.hoursKey;
 
     /* maps */
 
@@ -256,15 +113,30 @@
       onChangeBounds();
     };
 
-    function updateChartData(newValue, oldValue) {
-      if (newValue != oldValue) {
-        console.log('change chart data', newValue, oldValue);
+    $scope.$watch('vm.status', function(newValue, oldValue) {
+      var key;
+      switch (newValue) {
+        case 'all': key = '-1'; break;
+        case 'success': key = '0'; break;
+        case 'canceled_by_user': key = '1'; break;
+        case 'canceled_by_driver': key = '2'; break;
       }
-    }
-
-    $scope.$watch('vm.status', updateChartData);
-    $scope.$watch('vm.city', updateChartData);
-    updateChartData(true, false);
+      vm.chart.bar.order.data = cities.map(city => data[city][key]['orders']['all']);
+      vm.chart.bar.amount.data = cities.map(city => data[city][key]['amount']['all']);
+      vm.chart.bar.distance.data = cities.map(city => data[city][key]['distance']['all']);
+      vm.chart.pie.order.data = cities.map(city => data[city][key]['orders']['all']);
+      vm.chart.pie.amount.data = cities.map(city => data[city][key]['amount']['all']);
+      vm.chart.pie.distance.data = cities.map(city => data[city][key]['distance']['all']);
+      vm.chart.line.order.data = cities.map(city => {
+        return hoursKey.map(hour => data[city][key]['orders'][hour]);
+      });
+      vm.chart.line.amount.data = cities.map(city => {
+        return hoursKey.map(hour => data[city][key]['orders'][hour]);
+      });
+      vm.chart.line.distance.data = cities.map(city => {
+        return hoursKey.map(hour => data[city][key]['orders'][hour]);
+      });
+    });
 
     /* init */
 
