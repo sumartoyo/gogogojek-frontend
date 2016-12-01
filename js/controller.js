@@ -19,9 +19,6 @@
       },
     });
     ChartJsProvider.setOptions('line', {
-      legend: {
-        display: true,
-      },
       title: {
         display: true,
       },
@@ -38,7 +35,7 @@
 
     /* view model */
 
-    vm.viewType = 'evaluasi';
+    vm.viewType = 'charts';
     vm.status = 'all';
     vm.city = 'all';
 
@@ -72,6 +69,35 @@
     };
 
     vm.chart = {
+      bar: {
+        order: {
+          labels: ['Red', 'Blue', 'Yellow'],
+          data: [300, 50, 100],
+          options: {
+            title: {
+              text: 'Banyaknya pesanan',
+            },
+          },
+        },
+        amount: {
+          labels: ['Red', 'Blue', 'Yellow'],
+          data: [300, 50, 100],
+          options: {
+            title: {
+              text: 'Total tarif',
+            },
+          },
+        },
+        distance: {
+          labels: ['Red', 'Blue', 'Yellow'],
+          data: [300, 50, 100],
+          options: {
+            title: {
+              text: 'Total jarak',
+            },
+          },
+        },
+      },
       pie: {
         order: {
           labels: ['Red', 'Blue', 'Yellow'],
@@ -87,27 +113,16 @@
           data: [300, 50, 100],
           options: {
             title: {
-              text: 'Proporsi total harga',
+              text: 'Proporsi total tarif',
             },
           },
         },
-      },
-      bar: {
-        order: {
+        distance: {
           labels: ['Red', 'Blue', 'Yellow'],
           data: [300, 50, 100],
           options: {
             title: {
-              text: 'Jumlah banyaknya pesanan',
-            },
-          },
-        },
-        amount: {
-          labels: ['Red', 'Blue', 'Yellow'],
-          data: [300, 50, 100],
-          options: {
-            title: {
-              text: 'Jumlah total harga pesanan',
+              text: 'Proporsi total jarak',
             },
           },
         },
@@ -129,6 +144,9 @@
             fill: false,
           }],
           options: {
+            legend: {
+              display: true,
+            },
             title: {
               text: 'Banyaknya pesanan',
             },
@@ -151,7 +169,28 @@
           }],
           options: {
             title: {
-              text: 'Total harga',
+              text: 'Total tarif',
+            },
+          },
+        },
+        distance: {
+          labels: ['10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00', '17.00', '18.00'],
+          series: ['Jakarta', 'Bandung', 'Surabaya'],
+          data: [
+            [65, 59, 80, 81, 56, 55, 40, 14, 14],
+            [28, 48, 40, 19, 86, 27, 90, 80, 80],
+            [18, 38, 30, 29, 76, 37, 80, 70, 80],
+          ],
+          datasetOverride: [{
+            fill: false,
+          },{
+            fill: false,
+          },{
+            fill: false,
+          }],
+          options: {
+            title: {
+              text: 'Total jarak',
             },
           },
         },

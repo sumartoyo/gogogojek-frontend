@@ -147,6 +147,9 @@ div[ng-controller] {
 #charts h3, #evaluasi h3 {
   text-align: center;
 }
+#charts canvas {
+  margin-bottom: 15px;
+}
 #evaluasi th, #evaluasi td {
   text-align: center;
 }

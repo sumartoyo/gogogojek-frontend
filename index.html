@@ -117,61 +117,68 @@
       <div id="map" ng-non-bindable></div>
 
       <div id="charts" ng-show="vm.viewType == 'charts'">
-        <h3>Pesanan pada daerah</h3>
-        <div style="max-width:1036px;margin:0 auto">
-          <div class="float-half-left">
-            <canvas class="chart chart-bar" height="200"
-              chart-options="vm.chart.bar.order.options"
-              chart-data="vm.chart.bar.order.data"
-              chart-labels="vm.chart.bar.order.labels"></canvas>
-          </div>
-          <div class="float-half-left">
-            <canvas class="chart chart-bar" height="200"
-              chart-options="vm.chart.bar.amount.options"
-              chart-data="vm.chart.bar.amount.data"
-              chart-labels="vm.chart.bar.amount.labels"></canvas>
-          </div>
-          <div class="float-clear"></div>
+        <h3>Pesanan per daerah</h3>
+        <div style="width:600px;margin:0 auto">
+          <canvas class="chart chart-bar"
+            chart-options="vm.chart.bar.order.options"
+            chart-data="vm.chart.bar.order.data"
+            chart-labels="vm.chart.bar.order.labels"></canvas>
+          <canvas class="chart chart-bar"
+            chart-options="vm.chart.bar.amount.options"
+            chart-data="vm.chart.bar.amount.data"
+            chart-labels="vm.chart.bar.amount.labels"></canvas>
+          <canvas class="chart chart-bar"
+            chart-options="vm.chart.bar.distance.options"
+            chart-data="vm.chart.bar.distance.data"
+            chart-labels="vm.chart.bar.distance.labels"></canvas>
         </div>
 
         <div style="height:25px"></div>
-        <div style="max-width:600px;margin:0 auto">
-          <div class="float-half-left">
-            <canvas class="chart chart-pie"
+        <div style="width:650px;margin:0 auto">
+          <div style="width:33%;float:left">
+            <canvas class="chart chart-pie" width="250px"
               chart-options="vm.chart.pie.order.options"
               chart-data="vm.chart.pie.order.data"
               chart-labels="vm.chart.pie.order.labels"></canvas>
           </div>
-          <div class="float-half-left">
-            <canvas class="chart chart-pie"
+          <div style="width:33%;float:left">
+            <canvas class="chart chart-pie" width="250px"
               chart-options="vm.chart.pie.amount.options"
               chart-data="vm.chart.pie.amount.data"
               chart-labels="vm.chart.pie.amount.labels"></canvas>
+          </div>
+          <div style="width:33%;float:left">
+            <canvas class="chart chart-pie" width="250px"
+              chart-options="vm.chart.pie.distance.options"
+              chart-data="vm.chart.pie.distance.data"
+              chart-labels="vm.chart.pie.distance.labels"></canvas>
+            <div class="float-clear"></div>
           </div>
           <div class="float-clear"></div>
         </div>
 
         <div style="height:50px"></div>
 
-        <h3>Pesanan pada jam</h3>
-        <div style="max-width:1036px;margin:0 auto">
-          <div class="float-half-left">
-            <canvas class="chart chart-line" height="200"
-              chart-options="vm.chart.line.order.options"
-              chart-series="vm.chart.line.order.series"
-              chart-data="vm.chart.line.order.data"
-              chart-dataset-override="vm.chart.line.order.datasetOverride"
-              chart-labels="vm.chart.line.order.labels"></canvas>
-          </div>
-          <div class="float-half-left">
-            <canvas class="chart chart-line" height="200"
-              chart-options="vm.chart.line.amount.options"
-              chart-series="vm.chart.line.amount.series"
-              chart-data="vm.chart.line.amount.data"
-              chart-dataset-override="vm.chart.line.amount.datasetOverride"
-              chart-labels="vm.chart.line.amount.labels"></canvas>
-          </div>
-          <div class="float-clear"></div>
+        <h3>Pesanan per jam</h3>
+        <div style="width:600px;margin:0 auto">
+          <canvas class="chart chart-line" width="500"
+            chart-options="vm.chart.line.order.options"
+            chart-series="vm.chart.line.order.series"
+            chart-data="vm.chart.line.order.data"
+            chart-dataset-override="vm.chart.line.order.datasetOverride"
+            chart-labels="vm.chart.line.order.labels"></canvas>
+          <canvas class="chart chart-line" width="500"
+            chart-options="vm.chart.line.amount.options"
+            chart-series="vm.chart.line.amount.series"
+            chart-data="vm.chart.line.amount.data"
+            chart-dataset-override="vm.chart.line.amount.datasetOverride"
+            chart-labels="vm.chart.line.amount.labels"></canvas>
+          <canvas class="chart chart-line" width="500"
+            chart-options="vm.chart.line.distance.options"
+            chart-series="vm.chart.line.distance.series"
+            chart-data="vm.chart.line.distance.data"
+            chart-dataset-override="vm.chart.line.distance.datasetOverride"
+            chart-labels="vm.chart.line.distance.labels"></canvas>
         </div>
 
         <div style="height:50px"></div>
