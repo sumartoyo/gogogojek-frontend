@@ -4,8 +4,6 @@
     'chart.js',
   ])
 
-  module.config(['ChartJsProvider', configureChart]);
-
   module.controller('MainCtrl', ['$http', '$timeout', '$scope', function($http, $timeout, $scope) {
     var vm = this;
 
@@ -48,11 +46,33 @@
       },
     };
 
-    var chartData = makeChartData();
-    vm.chart = chartData.chart;
-    var data = chartData.data;
-    var cities = chartData.cities;
-    var hoursKey = chartData.hoursKey;
+    var chartOptions = makeChart();
+    vm.chart = chartOptions.chart;
+    vm.chart.data = {
+      selectedCities: [],
+      selectedColors: [],
+    };
+    ['order', 'amount', 'distance'].forEach(jenisData => {
+      vm.chart.data[jenisData] = {
+        bar: [],
+        line: [],
+      };
+    });
+
+    vm.cities = {
+      all: false,
+      Jakarta: true,
+      Bandung: true,
+      Surabaya: true,
+      Denpasar: true,
+      Makassar: true,
+      checkAll: function() {
+        chartOptions.cities.forEach(city => {
+          vm.cities[city] = true;
+        });
+        vm.cities.all = false;
+      },
+    };
 
     /* maps */
 
@@ -103,10 +123,6 @@
       });
     };
 
-    var maps = new Maps(onEvent, onChangeBounds, sqrtItemCount);
-
-    /* methods */
-
     vm.goto = function(city) {
       maps.goto(city);
     };
@@ -116,33 +132,66 @@
       onChangeBounds();
     };
 
-    $scope.$watch('vm.status', function(newValue, oldValue) {
-      var key;
-      switch (newValue) {
-        case 'all': key = '-1'; break;
-        case 'success': key = '0'; break;
-        case 'canceled_by_user': key = '1'; break;
-        case 'canceled_by_driver': key = '2'; break;
+    var maps = new Maps(onEvent, onChangeBounds, sqrtItemCount);
+
+    /* charts */
+
+    var isUpdatingChart = false;
+    var updateChart = function(newValue, oldValue) {
+      if (newValue != oldValue && !isUpdatingChart) {
+        isUpdatingChart = true;
+
+        setTimeout(function() {
+          var selectedCities = vm.chart.data.selectedCities;
+          var selectedColors = vm.chart.data.selectedColors;
+          selectedCities.splice(0, selectedCities.length);
+          selectedColors.splice(0, selectedColors.length);
+          chartOptions.cities.forEach(city => {
+            if (vm.cities[city]) {
+              selectedCities.push(city);
+              selectedColors.push(chartOptions.colors[city]);
+            }
+          });
+
+          var key;
+          switch (vm.status) {
+            case 'all': key = '-1'; break;
+            case 'success': key = '0'; break;
+            case 'canceled_by_user': key = '1'; break;
+            case 'canceled_by_driver': key = '2'; break;
+          }
+
+          ['order', 'amount', 'distance'].forEach(jenisData => {
+            var me = vm.chart.data[jenisData];
+
+            me.bar.splice(0, me.bar.length);
+            selectedCities.forEach(city => {
+              me.bar.push(chartOptions.data[city][key][jenisData]['all']);
+            });
+
+            me.line.splice(0, me.line.length);
+            selectedCities.forEach(city => {
+              me.line.push(chartOptions.hoursKey.map(hour => chartOptions.data[city][key][jenisData][hour]));
+            });
+          });
+
+          setTimeout(function() {
+            $scope.$digest();
+
+            setTimeout(function() {
+              isUpdatingChart = false;
+            }, 1);
+          }, 1);
+        }, 1);
       }
-      vm.chart.bar.order.data = cities.map(city => data[city][key]['orders']['all']);
-      vm.chart.bar.amount.data = cities.map(city => data[city][key]['amount']['all']);
-      vm.chart.bar.distance.data = cities.map(city => data[city][key]['distance']['all']);
-      vm.chart.pie.order.data = cities.map(city => data[city][key]['orders']['all']);
-      vm.chart.pie.amount.data = cities.map(city => data[city][key]['amount']['all']);
-      vm.chart.pie.distance.data = cities.map(city => data[city][key]['distance']['all']);
-      vm.chart.line.order.data = cities.map(city => {
-        return hoursKey.map(hour => data[city][key]['orders'][hour]);
-      });
-      vm.chart.line.amount.data = cities.map(city => {
-        return hoursKey.map(hour => data[city][key]['orders'][hour]);
-      });
-      vm.chart.line.distance.data = cities.map(city => {
-        return hoursKey.map(hour => data[city][key]['orders'][hour]);
-      });
-    });
+    };
+
+    $scope.$watch('vm.status', updateChart);
+    chartOptions.cities.forEach(city => $scope.$watch('vm.cities.'+city, updateChart));
 
     /* init */
 
+    updateChart(true, false);
     document.body.style.visibility = 'visible';
   }]);
 })();
